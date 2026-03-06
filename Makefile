@@ -1,4 +1,4 @@
-.PHONY: all config build set-style format tidy test
+.PHONY: all config build set-style format tidy test coverage
 
 UNAME := $(shell uname)
 
@@ -28,6 +28,12 @@ tidy: build
 test: build
 	ctest --test-dir build --output-on-failure
 
+coverage: test
+	lcov --capture --directory build --output-file build/coverage.info
+	lcov --remove build/coverage.info '*/googletest/*' '*/tests/*' '/usr/*' --output-file build/coverage.info
+	genhtml build/coverage.info --output-directory build/coverage_report
+	@echo "Coverage report: build/coverage_report/index.html"
+
 clean:
 	rm -rf build && rm .clang-tidy .clang-format
 
@@ -36,3 +42,25 @@ bench: build
 
 docs: build
 	doxygen
+
+coverage: build test
+	lcov --capture \
+     --directory ./build \
+     --ignore-errors inconsistent,inconsistent \
+     --ignore-errors unsupported,unsupported \
+     --ignore-errors format \
+     --output-file coverage.info
+	lcov --extract coverage.info \
+		 "*/linalg/include/*" \
+		 "*/linalg/src/*" \
+		 "*/linalg/tests/*" \
+		 --ignore-errors inconsistent,inconsistent \
+		 --ignore-errors format \
+		 --output-file coverage.info
+	genhtml coverage.info \
+			--ignore-errors inconsistent,inconsistent \
+			--ignore-errors unsupported,unsupported \
+			--ignore-errors category,category \
+			--ignore-errors format \
+			--output-directory coverage_report
+	open coverage_report/index.html

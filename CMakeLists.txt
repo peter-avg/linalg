@@ -5,7 +5,6 @@ project(linalg)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
 include(FetchContent)
 FetchContent_Declare(
   googletest
@@ -48,6 +47,9 @@ target_link_libraries(
 
 include(GoogleTest)
 gtest_discover_tests(run_tests)
+
+target_compile_options(run_tests PRIVATE --coverage)
+target_link_options(run_tests PRIVATE --coverage)
 
 # set(BENCHSOURCES
 #     ${SOURCES}
