@@ -1,0 +1,11 @@
+Checks: >
+  clang-diagnostic-*,
+  clang-analyzer-*,
+  cppcoreguidelines-*,
+  modernize-*,
+  performance-*,
+  readability-*,
+  -modernize-use-trailing-return-type
+WarningsAsErrors: ''
+HeaderFilterRegex: '^(?!.*(_deps|MacOSX|CommandLineTools)).*'
+FormatStyle: file
