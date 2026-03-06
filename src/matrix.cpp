@@ -6,12 +6,33 @@ namespace matrix {
         : rows(rows), cols(cols), data(rows * cols, 0) {}
 
     template <typename T>
-    Matrix<T>::Matrix(std::vector<T> data, size_t rows, size_t cols)
+    Matrix<T>::Matrix(std::vector<T>& data, size_t rows, size_t cols)
         : data(data), rows(rows), cols(cols) {}
 
     template <typename T>
     Matrix<T>::Matrix(const Matrix& other) 
         : data(other.data), rows(other.rows), cols(other.cols) {}
+
+    template <typename T>
+    Matrix<T>::Matrix(size_t rows, size_t cols, T initial)
+        : rows(rows), cols(cols), data(rows * cols, initial) {}
+
+    template <typename T>
+    Matrix<T>::~Matrix() = default;
+
+    template <typename T>
+    Matrix<T>& Matrix<T>::operator=(const Matrix<T>& other) = default;
+
+    template <typename T>
+    T Matrix<T>::trace() const {
+        T trace = 0;
+
+        for (int i=0; i < rows * cols; i++) {
+            trace += data[(i * cols) + i];
+        }
+
+        return trace;
+    }
 
     template <typename T>
     bool Matrix<T>::operator==(const Matrix<T>& other) const {
@@ -56,6 +77,48 @@ namespace matrix {
         Matrix<T> result = *this;
         result += other;
         return result;
+    }
+
+    template <typename T>
+    std::ostream& operator<<(std::ostream& out, const Matrix<T>* mat) {
+        out << "Matrix( ";
+
+        for (size_t i=0; i < mat->getRows(); i++) {
+            out << "[ ";
+            for (size_t j=0; j < mat->getCols(); j++) {
+                out << mat(i, j);
+                if (j < mat->getCols() - 1) {
+                    out << ", ";
+                }
+            }
+
+            out << " ]\n";
+        }
+
+        out << ")";
+
+        return out;
+    }
+
+    template <typename T>
+    std::ostream& operator<<(std::ostream& out, const Matrix<T>& mat) {
+        out << "Matrix( ";
+
+        for (size_t i=0; i < mat.getRows(); i++) {
+            out << "[ ";
+            for (size_t j=0; j < mat.getCols(); j++) {
+                out << mat(i, j);
+                if (j < mat.getCols() - 1) {
+                    out << ", ";
+                }
+            }
+
+            out << " ]\n";
+        }
+
+        out << ")";
+
+        return out;
     }
 
     template class Matrix<int>;

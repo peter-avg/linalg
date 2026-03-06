@@ -1,10 +1,11 @@
 #ifndef _INCLUDE_MATRIX_HPP_
 #define _INCLUDE_MATRIX_HPP_
 
+#include <iostream>
 #include <vector>
 
 /**
- * @brief Namespace for matrices 
+ * @brief Namespace for dense and sparse matrices
  * */
 namespace matrix {
     /**
@@ -28,12 +29,37 @@ namespace matrix {
              * @param size_t cols, the number of columns in the matrix
              * @return The instance of a dense matrix
              */
-            Matrix(std::vector<T> data, size_t rows, size_t cols);
+            Matrix(std::vector<T>& data, size_t rows, size_t cols);
+
+            /**
+             * @brief Copy constructor for Matrix constructor 
+             * @param const Matrix& other, the Matrix we are copying
+             * @return The instance of a dense matrix
+             */
             Matrix(const Matrix& other);
+
+            /**
+             * @brief Matrix constructor with rows and cols, and an initial value
+             * @param size_t rows, the number of rows in the matrix
+             * @param size_t cols, the number of columns in the matrix
+             * @param T initial, the initial value for all points in the matrix
+             * @return The instance of a dense matrix
+             */
+            Matrix(size_t rows, size_t cols, T initial);
+
+            /**
+             * @brief Matrix destructor
+             */
             ~Matrix();
 
-            Matrix<T>& operator=(const Matrix& other) = default;
+            Matrix<T>& operator=(const Matrix& other);
             bool operator==(const Matrix& other) const;
+
+            /*
+             * @brief Method that returns the trace of a matrix
+             * @return The trace of a matrix;
+             */
+            [[nodiscard]] T trace() const;
 
             T& operator()(size_t row, size_t col);
             const T& operator()(size_t row, size_t col) const;
@@ -42,6 +68,12 @@ namespace matrix {
 
             Matrix<T>& operator+=(Matrix<T>& other);
             Matrix<T> operator+(Matrix<T>& other);
+
+            [[nodiscard]] const size_t& getRows() const { return rows; }
+            [[nodiscard]] const size_t& getCols() const { return cols; }
+
+            friend std::ostream& operator<<(std::ostream& out, const Matrix<T>* mat);
+            friend std::ostream& operator<<(std::ostream& out, const Matrix<T>& mat);
 
         private:
             std::vector<T> data;
