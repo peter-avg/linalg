@@ -20,3 +20,13 @@ TEST(SparseMatrix, NonZeroItem) {
 
   EXPECT_EQ(sparse(0, 0), 1);
 }
+
+TEST(SparseMatrix, ZeroItem) {
+  matrix::Matrix<int> dense(4, 4, 0);
+  dense(0, 0) = 1;
+  matrix::SparseMatrix<int> sparse(dense);
+
+  std::cerr << "Sparse Matrix at (0, 0): " << sparse(0, 0) << "\n";
+
+  EXPECT_EQ(sparse(1, 1), 0);
+}

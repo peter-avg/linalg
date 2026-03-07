@@ -6,9 +6,7 @@ int main() {
 
   matrix::SparseMatrix<int> sparse(dense);
 
-  matrix::CSRData<int> data = sparse.getData();
-
-  std::cout << data;
+  std::cout << sparse;
 
   return 0;
 }
