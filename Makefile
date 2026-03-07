@@ -28,14 +28,8 @@ tidy: build
 test: build
 	ctest --test-dir build --output-on-failure
 
-coverage: test
-	lcov --capture --directory build --output-file build/coverage.info
-	lcov --remove build/coverage.info '*/googletest/*' '*/tests/*' '/usr/*' --output-file build/coverage.info
-	genhtml build/coverage.info --output-directory build/coverage_report
-	@echo "Coverage report: build/coverage_report/index.html"
-
 clean:
-	rm -rf build && rm .clang-tidy .clang-format
+	rm -rf build coverage_report && rm .clang-format coverage.info
 
 bench: build
 	./build/run_benchmarks
