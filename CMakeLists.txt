@@ -27,11 +27,14 @@ include_directories(include)
 set(SOURCES
     ./include/matrix.hpp
     ./src/matrix.cpp
+    ./include/sparse_matrix.hpp
+    ./src/sparse_matrix.cpp
 )
 
 set(TESTSOURCES
     ${SOURCES}
     ./tests/test_matrix.cpp
+    ./tests/test_sparse_matrix.cpp
 )
 
 add_executable(linalg)
