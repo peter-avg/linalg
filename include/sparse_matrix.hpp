@@ -28,6 +28,29 @@ template <typename T>
 using CSRData = std::map<size_t, std::vector<CSRValuePtr<T>>>;
 
 template <typename T>
+std::ostream& operator<<(std::ostream& out, const CSRValue<T>& value) {
+  out << "CSRValue(" << value.data << ", " << value.col << ")";
+}
+
+template <typename T>
+std::ostream& operator<<(std::ostream& out, const CSRData<T>& data) {
+  out << "CSRData(";
+
+  for (auto& [row, vec] : data) {
+    out << "Row:" << row << "[";
+    for (auto& value : vec) {
+      out << value->data;
+    }
+
+    out << "]\n";
+  }
+
+  out << ")";
+
+  return out;
+}
+
+template <typename T>
 class SparseMatrix : public Matrix<T> {
  public:
   SparseMatrix() = default;

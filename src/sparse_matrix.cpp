@@ -13,9 +13,10 @@ SparseMatrix<T>::~SparseMatrix() = default;
 template <typename T>
 SparseMatrix<T>::SparseMatrix(const Matrix<T> other)
     : rows(other.getRows()), cols(other.getCols()) {
-  for (size_t i = 0; i < other.getRows(); i++) {
-    for (size_t j = 0; j < other.getCols(); j++) {
-      if (i != 0 && j != 0) {
+  for (size_t i = 0; i < rows; i++) {
+    for (size_t j = 0; j < cols; j++) {
+      T val = other(i, j);
+      if (val != 0) {
         data[i].push_back(makeCSRValuePtr<T>(other(i, j), j));
       }
     }
