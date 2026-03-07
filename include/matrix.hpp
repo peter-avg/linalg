@@ -14,6 +14,7 @@ namespace matrix {
     template <typename T>
     class Matrix {
         public:
+            Matrix() = default;
             /**
              * @brief Matrix constructor with rows and cols
              * @param size_t rows, the number of rows in the matrix
@@ -39,6 +40,12 @@ namespace matrix {
             Matrix(const Matrix& other);
 
             /**
+             * @brief Move constructor for Matrix constructor 
+             * @param Matrix&& other, the Matrix we are moving
+             */
+            Matrix(Matrix&& other) noexcept;
+
+            /**
              * @brief Matrix constructor with rows and cols, and an initial value
              * @param size_t rows, the number of rows in the matrix
              * @param size_t cols, the number of columns in the matrix
@@ -52,8 +59,7 @@ namespace matrix {
              */
             ~Matrix();
 
-            Matrix<T>& operator=(const Matrix& other);
-            bool operator==(const Matrix& other) const;
+
 
             /*
              * @brief Method that returns the trace of a matrix
@@ -66,11 +72,21 @@ namespace matrix {
             T& operator[](size_t index);
             const T& operator[](size_t index) const;
 
-            Matrix<T>& operator+=(Matrix<T>& other);
-            Matrix<T> operator+(Matrix<T>& other);
+            bool operator==(const Matrix& other) const;
+
+            Matrix<T>& operator=(const Matrix& other);
+            Matrix<T>& operator=(Matrix&& other) noexcept;
+            Matrix<T>& operator=(Matrix other);
+            Matrix<T> operator+(const Matrix<T>& other);
+            Matrix<T>& operator+=(const Matrix<T>& other);
+            Matrix<T> operator-(const Matrix<T>& other);
+            Matrix<T>& operator-=(const Matrix<T>& other);
+            Matrix<T> operator*(const Matrix<T>& other);
+            Matrix<T>& operator*=(const Matrix<T>& other);
 
             [[nodiscard]] const size_t& getRows() const { return rows; }
             [[nodiscard]] const size_t& getCols() const { return cols; }
+            [[nodiscard]] const size_t& getData() const { return data; }
 
             friend std::ostream& operator<<(std::ostream& out, const Matrix<T>* mat);
             friend std::ostream& operator<<(std::ostream& out, const Matrix<T>& mat);

@@ -18,6 +18,10 @@ namespace matrix {
         : rows(rows), cols(cols), data(rows * cols, initial) {}
 
     template <typename T>
+    Matrix<T>::Matrix(Matrix&& other) noexcept
+        : rows(other.getRows()), cols(other.getCols()), data(other.getData()) {}
+
+    template <typename T>
     Matrix<T>::~Matrix() = default;
 
     template <typename T>
@@ -62,7 +66,7 @@ namespace matrix {
     }
 
     template <typename T>
-    Matrix<T>& Matrix<T>::operator+=(Matrix<T>& other) {
+    Matrix<T>& Matrix<T>::operator+=(const Matrix<T>& other) {
         size_t size = this->cols * this->rows;
 
         for (size_t i=0; i < size; i++) {
@@ -73,7 +77,7 @@ namespace matrix {
     }
 
     template <typename T>
-    Matrix<T> Matrix<T>::operator+(Matrix<T>& other) {
+    Matrix<T> Matrix<T>::operator+(const Matrix<T>& other) {
         Matrix<T> result = *this;
         result += other;
         return result;
