@@ -8,6 +8,10 @@
  * @brief Namespace for dense and sparse matrices
  * */
 namespace matrix {
+
+template <typename T>
+class SparseMatrix;
+
 /**
  * @brief Matrix class for a dense matrix
  */
@@ -74,7 +78,7 @@ class Matrix {
 
   Matrix<T>& operator=(const Matrix& other);
   Matrix<T>& operator=(Matrix&& other) noexcept;
-  Matrix<T>& operator=(Matrix other);
+  // Matrix<T>& operator=(Matrix other);
   Matrix<T> operator+(const Matrix<T>& other);
   Matrix<T>& operator+=(const Matrix<T>& other);
   Matrix<T> operator-(const Matrix<T>& other);
@@ -85,6 +89,8 @@ class Matrix {
   [[nodiscard]] const size_t& getRows() const { return rows; }
   [[nodiscard]] const size_t& getCols() const { return cols; }
   [[nodiscard]] const std::vector<T>& getData() const { return data; }
+
+  [[nodiscard]] SparseMatrix<T> toSparse();
 
   friend std::ostream& operator<<(std::ostream& out, const Matrix<T>* mat) {
     out << "Matrix( \n";

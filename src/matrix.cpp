@@ -1,5 +1,7 @@
 #include "matrix.hpp"
 
+#include "sparse_matrix.hpp"
+
 namespace matrix {
 template <typename T>
 Matrix<T>::Matrix(size_t rows, size_t cols)
@@ -80,6 +82,12 @@ Matrix<T> Matrix<T>::operator+(const Matrix<T>& other) {
   Matrix<T> result = *this;
   result += other;
   return result;
+}
+
+template <typename T>
+[[nodiscard]] SparseMatrix<T> Matrix<T>::toSparse() {
+  SparseMatrix<T> mat = SparseMatrix<T>(*this);
+  return mat;
 }
 
 template class Matrix<int>;

@@ -3,6 +3,7 @@
 
 #include <cstdio>
 #include <map>
+#include <memory>
 #include <vector>
 
 #include "matrix.hpp"
@@ -65,11 +66,14 @@ class SparseMatrix : public Matrix<T> {
   [[nodiscard]] const size_t& getCols() const { return cols; }
   [[nodiscard]] const CSRData<T>& getData() const { return data; }
 
+  [[nodiscard]] SparseMatrix<T> toDense();
+
  private:
   CSRData<T> data;
   size_t rows, cols;
   T zero = T{0};
 };
+
 }  // namespace matrix
 
 #endif  // _INCLUDE_SPARSE_MATRIX_HPP_

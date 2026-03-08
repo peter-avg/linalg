@@ -5,14 +5,14 @@
 namespace matrix {
 template <typename T>
 SparseMatrix<T>::SparseMatrix(size_t rows, size_t cols)
-    : rows(rows), cols(cols) {}
+    : data{}, rows(rows), cols(cols) {}
 
 template <typename T>
 SparseMatrix<T>::~SparseMatrix() = default;
 
 template <typename T>
 SparseMatrix<T>::SparseMatrix(const Matrix<T> other)
-    : rows(other.getRows()), cols(other.getCols()) {
+    : rows(other.getRows()), cols(other.getCols()), data{} {
   for (size_t i = 0; i < rows; i++) {
     for (size_t j = 0; j < cols; j++) {
       T val = other(i, j);
@@ -38,6 +38,19 @@ const T& SparseMatrix<T>::operator()(size_t row, size_t col) {
   }
 
   return zero;
+}
+
+template <typename T>
+[[nodiscard]] SparseMatrix<T> SparseMatrix<T>::toDense() {
+  Matrix<T> mat(rows, cols);
+
+  for (int i = 0; i < rows; i++) {
+    for (int j = 0; j < cols; j++) {
+      mat(i, j) = (*this)(i, j);
+    }
+  }
+
+  return mat;
 }
 
 template class CSRValue<int>;
