@@ -65,8 +65,10 @@ class SparseMatrix : public Matrix<T> {
   [[nodiscard]] const size_t& getRows() const { return rows; }
   [[nodiscard]] const size_t& getCols() const { return cols; }
   [[nodiscard]] const CSRData<T>& getData() const { return data; }
-
   [[nodiscard]] SparseMatrix<T> toDense();
+  [[nodiscard]] std::shared_ptr<T[]> getDiagonal();
+  [[nodiscard]] std::shared_ptr<T[]> getInverseDiagonal();
+  [[nodiscard]] T computeTrace();
 
  private:
   CSRData<T> data;

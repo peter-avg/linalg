@@ -30,3 +30,32 @@ TEST(SparseMatrix, ZeroItem) {
 
   EXPECT_EQ(sparse(1, 1), 0);
 }
+
+TEST(SparseMatrix, Diag) {
+  matrix::Matrix<int> dense(4, 4, 0);
+  dense(0, 0) = 4;
+  dense(1, 1) = 2;
+  matrix::SparseMatrix<int> sparse(dense);
+
+  EXPECT_EQ(sparse.getDiagonal()[0], 4);
+  EXPECT_EQ(sparse.getDiagonal()[1], 2);
+}
+
+TEST(SparseMatrix, invDiag) {
+  matrix::Matrix<int> dense(4, 4, 0);
+  dense(0, 0) = 4;
+  dense(1, 1) = 2;
+  matrix::SparseMatrix<int> sparse(dense);
+
+  EXPECT_EQ(sparse.getInverseDiagonal()[0], 1 / 4);
+  EXPECT_EQ(sparse.getInverseDiagonal()[1], 1 / 2);
+}
+
+TEST(SparseMatrix, Trace) {
+  matrix::Matrix<int> dense(4, 4, 0);
+  dense(0, 0) = 4;
+  dense(1, 1) = 2;
+  matrix::SparseMatrix<int> sparse(dense);
+
+  EXPECT_EQ(sparse.computeTrace(), 6);
+}

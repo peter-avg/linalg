@@ -53,6 +53,57 @@ template <typename T>
   return mat;
 }
 
+template <typename T>
+[[nodiscard]] std::shared_ptr<T[]> SparseMatrix<T>::getDiagonal() {
+  size_t diagSize = std::min(rows, cols);
+  auto diag = std::make_shared<T[]>(diagSize);
+  size_t diagIdx = 0;
+
+  for (size_t i = 0; i < rows; i++) {
+    std::vector<CSRValuePtr<T>> data = this->data[i];
+    for (auto& value : data) {
+      if (value->col == i) {
+        diag[diagIdx++] = value->data;
+        break;
+      }
+    }
+  }
+
+  return diag;
+}
+
+template <typename T>
+[[nodiscard]] std::shared_ptr<T[]> SparseMatrix<T>::getInverseDiagonal() {
+  size_t diagSize = std::min(rows, cols);
+  auto invDiag = std::make_shared<T[]>(diagSize);
+  size_t diagIdx = 0;
+
+  for (size_t i = 0; i < rows; i++) {
+    std::vector<CSRValuePtr<T>> data = this->data[i];
+    for (auto& value : data) {
+      if (value->col == i) {
+        invDiag[diagIdx++] = T(1) / value->data;
+        break;
+      }
+    }
+  }
+
+  return invDiag;
+}
+
+template <typename T>
+[[nodiscard]] T SparseMatrix<T>::computeTrace() {
+  auto diag = this->getDiagonal();
+  size_t diagIdx = 0;
+  T res = 0;
+
+  for (size_t i = 0; i < rows; i++) {
+    res += diag[diagIdx++];
+  }
+
+  return res;
+}
+
 template class CSRValue<int>;
 template class CSRValue<float>;
 template class CSRValue<double>;
