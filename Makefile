@@ -28,6 +28,9 @@ tidy: build
 test: build
 	ctest --test-dir build --output-on-failure
 
+watch:
+	watchman-make -p '**/*.cpp' '**/*.hpp' -t tidy
+
 clean:
 	rm -rf build coverage_report && rm .clang-format coverage.info
 
